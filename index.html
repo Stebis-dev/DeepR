@@ -10,33 +10,101 @@
 </head>
 
 <body>
-    <div class="header">
-        <img src="images/logo.png" alt="DeepR">
-        <h3 class="header_title">Translator</h3>
-        <h3 class="header_title">For business</h3>
-        <h3 class="header_title">Pricing</h3>
-        <h3 class="header_title">Contact </h3>
+<div class="header">
+    <img src="images/logo.png" alt="DeepR">
+    <h3 class="header_title">Translator</h3>
+    <h3 class="header_title">For business</h3>
+    <h3 class="header_title">Pricing</h3>
+    <h3 class="header_title">Contact </h3>
+</div>
+<div class="translator-container">
+    <div class="language-select">
+        <select id="source-lang">
+            <option value="1">English</option>
+            <option value="2">Lithuanian</option>
+            <option value="3">German</option>
+            <option value="4">Latvian</option>
+            <option value="5">Polish</option>
+            <option value="6">Portuguese</option>
+            <option value="7">Romanian</option>
+            <option value="8">Russian</option>
+            <option value="9">Slovenian</option>
+            <option value="10">Swedish</option>
+            <option value="11">Turkish</option>
+            <option value="12">Greek</option>
+            <option value="13">Dutch</option>
+        </select>
+        <button id="translate-btn" onclick="translateText()">
+            <img src="images/arrow-left-right.svg" alt="Swap" />
+        </button>
+        <select id="target-lang">
+            <option value="1">English</option>
+            <option value="2">Lithuanian</option>
+            <option value="3">German</option>
+            <option value="4">Latvian</option>
+            <option value="5">Polish</option>
+            <option value="6">Portuguese</option>
+            <option value="7">Romanian</option>
+            <option value="8">Russian</option>
+            <option value="9">Slovenian</option>
+            <option value="10">Swedish</option>
+            <option value="11">Turkish</option>
+            <option value="12">Greek</option>
+            <option value="13">Dutch</option>
+        </select>
     </div>
-    <div class="translator-container">
-        <div class="language-select">
-            <select id="source-lang">
-                <option value="0">English</option>
-            </select>
-            <button id="translate-btn">
-                <img src="images/arrow-left-right.svg" alt="Swap" />
-            </button>
-            <select id="target-lang">
-                <option value="0">English</option>
-            </select>
-        </div>
-        <div class="language-input">
-            <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
-            <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
-        </div>
+    <div class="language-input">
+        <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+        <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
     </div>
-    <div class="footer">
-        &copy 2023 DeepR, All Rights Reserved
-    </div>
+</div>
+<div class="footer">
+    &copy 2023 DeepR, All Rights Reserved
+</div>
+<script>
+    function translateText() {
+        var inputText = document.getElementById("source-text").value;
+        var sourceElement = document.getElementById("source-lang");
+        var targetElement = document.getElementById("target-lang");
+        var targetLanguage = targetElement.options[targetElement.selectedIndex].text;
+        var sourceLanguage = sourceElement.options[sourceElement.selectedIndex].text;
+
+
+        // ChatGPT API request
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                // WARNING: Exposing API keys on the client side is not secure
+                "Authorization": "Bearer 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"
+            },
+            body: JSON.stringify({
+                prompt: "Translate from "+sourceLanguage+" to "+ targetLanguage +": " + inputText,
+                temperature: 0.5,
+                max_tokens: 60,
+                model: "text-davinci-003"
+            }),
+            redirect: 'follow'
+        };
+
+        fetch("https://api.openai.com/v1/completions", requestOptions)
+            .then(response => response.json()) // parse the JSON from the response
+            .then(result => {
+                console.log(result); // Log the result for debugging
+                if (result.choices && result.choices.length > 0 && result.choices[0].text) {
+                    var translatedText = result.choices[0].text.trim();
+                    document.getElementById("translated-text").innerHTML = translatedText;
+                } else {
+                    console.error('No translation found in the response');
+                    document.getElementById("translated-text").innerHTML = "Translation error or no content.";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("translated-text").innerHTML = "An error occurred.";
+            });
+    }
+</script>
 </body>
 
 </html>
