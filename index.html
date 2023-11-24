@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepR</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <div class="header">
+        <img src="images/logo.png" alt="DeepR">
+        <h3 class="header_title">Translator</h3>
+        <h3 class="header_title">For business</h3>
+        <h3 class="header_title">Pricing</h3>
+        <h3 class="header_title">Contact </h3>
+    </div>
+    <div class="translator-container">
+        <div class="language-select">
+            <select id="source-lang">
+                <option value="0">English</option>
+            </select>
+            <button id="translate-btn">
+                <img src="images/arrow-left-right.svg" alt="Swap" />
+            </button>
+            <select id="target-lang">
+                <option value="0">English</option>
+            </select>
+        </div>
+        <div class="language-input">
+            <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+            <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+        </div>
+    </div>
+    <div class="footer">
+        &copy 2023 DeepR, All Rights Reserved
+    </div>
+</body>
+
+</html>

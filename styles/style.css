@@ -1,0 +1,127 @@
+@font-face {
+    font-family: Inter;
+    src: url('https://fonts.googleapis.com/css?family=Inter');
+}
+
+body,
+html {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    font-family: Inter, sans-serif;
+    background-color: #DEDEDE;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    width: 100%;
+    padding: 10px;
+
+    background: #17A97F;
+    color: white;
+
+    font-size: 15px;
+
+    user-select: none;
+}
+
+.header img {
+    width: 10%;
+    padding: 0% 3%;
+}
+
+.header_title {
+    padding: 0% 3%;
+    font-weight: 300;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #17A97F;
+    color: white;
+    text-align: center;
+    font-weight: 200;
+    font-size: 15px;
+    user-select: none;
+}
+
+.translator-container {
+    display: flex;
+    flex-direction: column;
+
+    width: 80%;
+    height: 100%;
+
+    margin-top: 7%;
+    margin-bottom: 5%;
+    
+    background-color: white;
+    border-radius: 15px;
+}
+
+.language-select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 20px;
+}
+
+.language-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 1px;
+    height: 100%;
+    margin-bottom: 15px;
+    border-radius: 0 34px 0 15px;
+    padding: 0px;
+}
+
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    border:none;
+    outline: 1px solid #DEDEDE;
+    background-color: transparent;
+    font-size: 20px;
+    resize: none;
+}
+textarea:focus {
+    outline-color: black;
+}
+
+button {
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+        border-color:black;
+}
+
+select{
+    border: none;
+    content: "Test";
+}
