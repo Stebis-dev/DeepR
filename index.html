@@ -10,72 +10,76 @@
 </head>
 
 <body>
-<div class="header">
-    <img src="images/logo.png" alt="DeepR">
-    <h3 class="header_title"><a href="index.html">Translator</a></h3>
-    <h3 class="header_title">For business</h3>
-    <h3 class="header_title"><a href="pricing.html">Pricing</a></h3>
-    <h3 class="header_title">Contact </h3>
-</div>
+    <div class="header">
+        <img src="images/logo.png" alt="DeepR">
+        <h3 class="header_title">Translator</a></h3>
+        <h3 class="header_title">For business</h3>
+        <h3 class="header_title">Contact </h3>
+    </div>
     <div class="translator-container">
-        <div class="language-select">
-            <select id="language-style">
-                <option value="1">Normal</option>
-                <option value="2">Formal</option>
-            </select>
-            <select id="source-lang">
-                <option value="1">English</option>
-                <option value="2">Lithuanian</option>
-                <option value="3">German</option>
-                <option value="4">Latvian</option>
-                <option value="5">Polish</option>
-                <option value="6">Portuguese</option>
-                <option value="7">Romanian</option>
-                <option value="8">Russian</option>
-                <option value="9">Slovenian</option>
-                <option value="10">Swedish</option>
-                <option value="11">Turkish</option>
-                <option value="12">Greek</option>
-                <option value="13">Dutch</option>
-                <option value="14">Japanese</option>
-                <option value="15">Italian</option>
-                <option value="16">Indonesian</option>
-                <option value="17">Korean</option>
-                <option value="18">Chinese (simplified)</option>
-                <option value="19">Estonian</option>
-                <option value="20">French</option>
-            </select>
-            <button id="translate-btn" onclick="translateText()">
+        <div class="language-select-container">
+            <div class="language-select-left">
+                <select id="language-style">
+                    <option value="1">Normal</option>
+                    <option value="2">Formal</option>
+                </select>
+                <select id="source-lang">
+                    <option value="1">English</option>
+                    <option value="2">Lithuanian</option>
+                    <option value="3">German</option>
+                    <option value="4">Latvian</option>
+                    <option value="5">Polish</option>
+                    <option value="6">Portuguese</option>
+                    <option value="7">Romanian</option>
+                    <option value="8">Russian</option>
+                    <option value="9">Slovenian</option>
+                    <option value="10">Swedish</option>
+                    <option value="11">Turkish</option>
+                    <option value="12">Greek</option>
+                    <option value="13">Dutch</option>
+                    <option value="14">Japanese</option>
+                    <option value="15">Italian</option>
+                    <option value="16">Indonesian</option>
+                    <option value="17">Korean</option>
+                    <option value="18">Chinese (simplified)</option>
+                    <option value="19">Estonian</option>
+                    <option value="20">French</option>
+                </select>
+            </div>
+            <button id="translate-btn" class="language-select-center" onclick="translateText()">
                 <img src="images/arrow-left-right.svg" alt="Swap" />
             </button>
-            <select id="target-lang">
-                <option value="1">English</option>
-                <option value="2">Lithuanian</option>
-                <option value="3">German</option>
-                <option value="4">Latvian</option>
-                <option value="5">Polish</option>
-                <option value="6">Portuguese</option>
-                <option value="7">Romanian</option>
-                <option value="8">Russian</option>
-                <option value="9">Slovenian</option>
-                <option value="10">Swedish</option>
-                <option value="11">Turkish</option>
-                <option value="12">Greek</option>
-                <option value="13">Dutch</option>
-                <option value="14">Japanese</option>
-                <option value="15">Italian</option>
-                <option value="16">Indonesian</option>
-                <option value="17">Korean</option>
-                <option value="18">Chinese (simplified)</option>
-                <option value="19">Estonian</option>
-                <option value="20">French</option>
-            </select>
+            <div class="language-select-right">
+                <select id="target-lang">
+                    <option value="1">English</option>
+                    <option value="2">Lithuanian</option>
+                    <option value="3">German</option>
+                    <option value="4">Latvian</option>
+                    <option value="5">Polish</option>
+                    <option value="6">Portuguese</option>
+                    <option value="7">Romanian</option>
+                    <option value="8">Russian</option>
+                    <option value="9">Slovenian</option>
+                    <option value="10">Swedish</option>
+                    <option value="11">Turkish</option>
+                    <option value="12">Greek</option>
+                    <option value="13">Dutch</option>
+                    <option value="14">Japanese</option>
+                    <option value="15">Italian</option>
+                    <option value="16">Indonesian</option>
+                    <option value="17">Korean</option>
+                    <option value="18">Chinese (simplified)</option>
+                    <option value="19">Estonian</option>
+                    <option value="20">French</option>
+                </select>
+            </div>
         </div>
         <div class="language-input">
-            <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+            <textarea id="source-text" maxlength=50 placeholder="Enter text to translate..."></textarea>
             <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
         </div>
     </div>
+
     <div class="footer">
         &copy 2023 DeepR, All Rights Reserved
     </div>

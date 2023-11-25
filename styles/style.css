@@ -69,17 +69,36 @@ html {
 
     margin-top: 7%;
     margin-bottom: 5%;
-    
+
     background-color: white;
     border-radius: 15px;
 }
 
-.language-select {
+.language-select-container {
+    box-sizing: border-box;
+    width: 100%;
+
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-
+    align-items:center;
+    
+    justify-content:center;
     padding: 20px;
+}
+.language-select-left
+{
+    flex-grow: 2;
+    width: -webkit-fill-available;
+}
+.language-select-center{
+    flex-grow: 1;
+    width: auto;
+}
+.language-select-right {
+    display: flex;
+    flex-grow: 2;
+    width: -webkit-fill-available;
+    justify-content:end;
 }
 
 .language-input {
@@ -98,17 +117,22 @@ textarea {
     width: 100%;
     height: 100%;
     padding: 25px;
-    border:none;
+    border: none;
     outline: 1px solid #DEDEDE;
     background-color: transparent;
     font-size: 20px;
     resize: none;
 }
+
 textarea:focus {
+    outline-color: black;
+}
+textarea:h {
     outline-color: black;
 }
 
 button {
+    align-self: center;
     padding: 10px;
     background-color: transparent;
     border: 1px solid white;
@@ -118,10 +142,52 @@ button {
 }
 
 button:hover {
-        border-color:black;
+    border-color: black;
 }
 
-select{
+select {
     border: none;
-    content: "Test";
+    width: auto;
+}
+
+@media only screen and (max-width: 620px) {
+
+    /* For mobile phones: */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .header_title {
+        display: none;
+        visibility: hidden;
+    }
+
+    .header img {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        width: auto;
+        padding: 0 30%;
+    }
+
+    .translator-container {
+        display: flex;
+        flex-direction: column;
+        margin: 25px;
+        width: 90%;
+        height: 80%;
+
+        margin-top: 7%;
+        margin-bottom: 5%;
+
+        background-color: white;
+        border-radius: 15px;
+    }
+    select {
+        width: -webkit-fill-available;
+    }
 }
