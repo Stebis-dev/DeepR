@@ -1,7 +1,30 @@
+const sourceLangElement = document.getElementById("source-lang");
+const targetLangElement = document.getElementById("target-lang");
+
+sourceLangElement.addEventListener("input", changeOptions);
+
+function changeOptions() {
+    const selectedSourceLang = sourceLangElement.value;
+
+    if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
+        let currentIndex = sourceLangElement.selectedIndex;
+
+        currentIndex = (currentIndex + 1) % targetLangElement.options.length;
+        targetLangElement.selectedIndex = currentIndex;
+    }
+
+    for (let i = 0; i < targetLangElement.options.length; i++) {
+        if (targetLangElement.options[i].value === selectedSourceLang) {
+            targetLangElement.options[i].style.display = 'none';
+        } else {
+            targetLangElement.options[i].style.display = 'block';
+        }
+    }
+}
+
+
 function translateText() {
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
-    const sourceLangElement = document.getElementById('source-lang');
-    const targetLangElement = document.getElementById('target-lang');
     const styleElement = document.getElementById('language-style');
 
     if (!sourceLangElement || !targetLangElement) {
