@@ -25,8 +25,6 @@ function changeOptions() {
 
 function translateText() {
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
-    const sourceLangElement = document.getElementById('source-lang');
-    const targetLangElement = document.getElementById('target-lang');
     const styleElement = document.getElementById('language-style');
 
     if (!sourceLangElement || !targetLangElement) {
