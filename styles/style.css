@@ -24,9 +24,7 @@ html {
     top: 0;
     display: flex;
     align-items: center;
-    justify-content: start;
-
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 10px;
 
     background: #17A97F;
@@ -67,7 +65,7 @@ html {
     width: 80%;
     height: 100%;
 
-    margin-top: 7%;
+    margin-top: 15vh;
     margin-bottom: 5%;
 
     background-color: white;
@@ -187,7 +185,13 @@ select {
         background-color: white;
         border-radius: 15px;
     }
+    .language-input {
+        flex-direction: column;
+    }
     select {
         width: -webkit-fill-available;
     }
+    .footer {
+        font-size: 10px;
+    }   
 }
