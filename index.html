@@ -8,7 +8,6 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="styles/style.css">
 </head>
-
 <body>
 <div class="header">
     <img src="images/logo.png" alt="DeepR">
@@ -34,7 +33,7 @@
             <option value="12">Greek</option>
             <option value="13">Dutch</option>
         </select>
-        <button id="translate-btn" onclick="translateText()">
+        <button id="translate-btn">
             <img src="images/arrow-left-right.svg" alt="Swap" />
         </button>
         <select id="target-lang">
@@ -62,49 +61,40 @@
     &copy 2023 DeepR, All Rights Reserved
 </div>
 <script>
-    function translateText() {
-        var inputText = document.getElementById("source-text").value;
-        var sourceElement = document.getElementById("source-lang");
-        var targetElement = document.getElementById("target-lang");
-        var targetLanguage = targetElement.options[targetElement.selectedIndex].text;
-        var sourceLanguage = sourceElement.options[sourceElement.selectedIndex].text;
-
-
-        // ChatGPT API request
-        var requestOptions = {
+    document.getElementById('translate-btn').addEventListener('click', function() {
+        const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
+        const sourceLangElement = document.getElementById('source-lang');
+        const targetLangElement = document.getElementById('target-lang');
+        if (!sourceLangElement || !targetLangElement) {
+            console.error('Language selection elements not found');
+            return;
+        }
+        const data = {
+            'text': document.getElementById('source-text').value,
+            'source_lang': sourceLangElement.options[sourceLangElement.selectedIndex].text,
+            'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text
+        };
+        fetch(azureFunctionUrl, {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                // WARNING: Exposing API keys on the client side is not secure
-                "Authorization": "Bearer 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"
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                prompt: "Translate from "+sourceLanguage+" to "+ targetLanguage +": " + inputText,
-                temperature: 0.5,
-                max_tokens: 60,
-                model: "text-davinci-003"
-            }),
-            redirect: 'follow'
-        };
-
-        fetch("https://api.openai.com/v1/completions", requestOptions)
-            .then(response => response.json()) // parse the JSON from the response
-            .then(result => {
-                console.log(result); // Log the result for debugging
-                if (result.choices && result.choices.length > 0 && result.choices[0].text) {
-                    var translatedText = result.choices[0].text.trim();
-                    document.getElementById("translated-text").innerHTML = translatedText;
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
                 } else {
-                    console.error('No translation found in the response');
-                    document.getElementById("translated-text").innerHTML = "Translation error or no content.";
+                    throw new Error(`Failed to translate. Status code: ${response.status}`);
                 }
             })
+            .then(text => {
+                document.getElementById('translated-text').value = text;
+            })
             .catch(error => {
-                console.error('Error:', error);
-                document.getElementById("translated-text").innerHTML = "An error occurred.";
+                console.error(error.message);
             });
-    }
+    });
 </script>
 </body>
-
 </html>
