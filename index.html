@@ -48,7 +48,7 @@
                     <option value="20">French</option>
                 </select>
             </div>
-            <button id="translate-btn" class="language-select-center" onclick="translateText()">
+            <button class="language-select-center" onclick="translateText()">
                 <img src="images/arrow-left-right.svg" alt="Swap" />
             </button>
             <div class="language-select-right">
@@ -77,9 +77,14 @@
             </div>
         </div>
         <div class="language-input">
-            <textarea id="source-text" maxlength=50 placeholder="Enter text to translate..."></textarea>
-            <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+            <textarea id="source-text" class="input-textarea" maxlength=50
+                placeholder="Enter text to translate..."></textarea>
+            <textarea id="translated-text" class="output-textarea" placeholder="Translation will appear here..."
+                readonly></textarea>
         </div>
+        <button id="translate-btn" class="translate_btn" onclick="translateText()">
+            Translate
+        </button>
     </div>
 
     <div class="footer">

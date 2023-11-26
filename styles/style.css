@@ -74,6 +74,8 @@ html {
 
     background-color: white;
     border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .language-select-container {
@@ -107,11 +109,27 @@ html {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    gap: 1px;
     height: 100%;
     margin-bottom: 15px;
     border-radius: 0 34px 0 15px;
     padding: 0px;
+}
+
+.translate_btn{
+    display: none;
+    border: none;
+}
+.translate_btn:hover{
+    background-color: #0d5c46;
+    border: none;
+}
+.input-textarea{
+    border: 1px solid #DEDEDE;
+    border-color: #DEDEDE #DEDEDE #DEDEDE white;
+}
+.output-textarea{
+border: 1px solid #DEDEDE;
+    border-color: #DEDEDE white #DEDEDE #DEDEDE ;
 }
 
 textarea {
@@ -119,20 +137,16 @@ textarea {
     width: 100%;
     height: 100%;
     padding: 25px;
-    border: none;
-    outline: 1px solid #DEDEDE;
+
     background-color: transparent;
     font-size: 20px;
     resize: none;
 }
 
 textarea:focus {
-    outline-color: black;
+    border-color: black;
+    outline: none;
 }
-textarea:h {
-    outline-color: black;
-}
-
 button {
     align-self: center;
     padding: 10px;
@@ -150,6 +164,7 @@ button:hover {
 select {
     border: none;
     width: auto;
+    background-color: transparent;
 }
 
 @media only screen and (max-width: 620px) {
@@ -175,16 +190,34 @@ select {
         flex-direction: column;
         width: 90%;
         height: 80%;
-        margin-top: 7%;
+        margin-top: 10vh;
         margin-bottom: 5%;
         background-color: white;
         border-radius: 15px;
     }
     .language-input {
         flex-direction: column;
+        margin-bottom: 0px;
+    }
+    .translate_btn {
+        display: block;
+        box-sizing: border-box;
+        width: 60%;
+        padding: 10px;
+        margin: 10px;
+        background-color: #17A97F;
+        color: white;
+        font-size: 20px;
     }
     select {
         width: -webkit-fill-available;
+    }
+    .input-textarea {
+        border-color: #DEDEDE white #DEDEDE white;
+    }
+
+    .output-textarea {
+        border-color: white white #DEDEDE white;
     }
     .footer {
         font-size: 10px;
