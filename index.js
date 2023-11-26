@@ -4,11 +4,27 @@ const sourceTextElement = document.getElementById("source-text");
 
 sourceLangElement.addEventListener("input", changeOptions);
 
-sourceTextElement.addEventListener("keyup", function (event) {
-    if (event.key === "Enter" && document.getElementById('source-text').value != null) {
-        translateText();
-    }
+let timer;
+
+const waitTime = 1500;
+
+const messageInput = document.getElementById('source-text');
+
+messageInput.addEventListener('keyup', event => {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+        if (!window.matchMedia('(max-width: 620px)').matches) {
+            doneTyping();
+        }
+    }, waitTime);
 });
+
+function doneTyping() {
+    // console.log(`The user is done typing: ${value}`);
+    translateText()
+}
+
 
 function changeOptions() {
     const selectedSourceLang = sourceLangElement.value;
