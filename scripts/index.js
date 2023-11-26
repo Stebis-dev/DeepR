@@ -2,6 +2,9 @@ const sourceLangElement = document.getElementById("source-lang");
 const targetLangElement = document.getElementById("target-lang");
 const sourceTextElement = document.getElementById("source-text");
 const translatedTextElement = document.getElementById("translated-text");
+const sourceDeleteBtn = document.getElementById("soure-input-delete-btn");
+const sourceLimitLabel = document.getElementById("source-input-limit-label");
+const copyToClipboardBtn = document.getElementById("output-copy-btn");
 
 
 var select = document.getElementById("selectNumber");
@@ -32,13 +35,13 @@ let timer;
 const waitTime = 1500;
 sourceTextElement.addEventListener('input', function () {
     if (this.value.length > 0) {
-        document.getElementById("soure-input-delete-btn").style.display = "block";
-        document.getElementById("source-input-limit-label").style.display = "block";
-        document.getElementById("source-input-limit-label").textContent = sourceTextElement.value.length + "/50";
+        sourceDeleteBtn.style.display = "block";
+        sourceLimitLabel.style.display = "block";
+        sourceLimitLabel.textContent = sourceTextElement.value.length + "/50";
     } else {
-        document.getElementById("soure-input-delete-btn").style.display = "none";
-        document.getElementById("source-input-limit-label").style.display = "none";
-        document.getElementById('output-copy-btn').style.display = 'none';
+        sourceDeleteBtn.style.display = "none";
+        sourceLimitLabel.style.display = "none";
+        copyToClipboardBtn.style.display = 'none';
     }
 });
 
@@ -76,9 +79,9 @@ function swapText() {
 function deleteInputText() {
     sourceTextElement.value = "";
     translatedTextElement.value = "";
-    document.getElementById("soure-input-delete-btn").style.display = "none";
-    document.getElementById("source-input-limit-label").style.display = "none";
-    document.getElementById('output-copy-btn').style.display = 'none';
+    sourceDeleteBtn.style.display = "none";
+    sourceLimitLabel.style.display = "none";
+    copyToClipboardBtn.style.display = 'none';
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
@@ -92,7 +95,7 @@ function translateText() {
         return;
     }
     const data = {
-        'text': document.getElementById('source-text').value,
+        'text': sourceTextElement.value,
         'source_lang': sourceLangElement.options[sourceLangElement.selectedIndex].text,
         'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text,
         'style': styleElement.options[styleElement.selectedIndex].text
@@ -114,7 +117,7 @@ function translateText() {
         .then(text => {
             document.getElementById('translated-text').value = text;
             if (translatedTextElement.value.trim().length > 0) {
-                document.getElementById('output-copy-btn').style.display = 'block';
+                copyToClipboardBtn.style.display = 'block';
             }
         })
         .catch(error => {
