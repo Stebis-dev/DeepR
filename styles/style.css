@@ -65,8 +65,6 @@ select {
     width: 80%;
     color: white;
     font-size: 15px;
-    user-select: none;
-}
 
 .header img {
     width: 10vw;
@@ -107,7 +105,6 @@ select {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 
 .language-select-container {
     box-sizing: border-box;
