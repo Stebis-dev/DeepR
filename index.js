@@ -1,16 +1,14 @@
 const sourceLangElement = document.getElementById("source-lang");
 const targetLangElement = document.getElementById("target-lang");
 const sourceTextElement = document.getElementById("source-text");
+const translatedTextElement = document.getElementById("translated-text");
 
-sourceLangElement.addEventListener("input", changeOptions);
 
 let timer;
-
 const waitTime = 1500;
-
 const messageInput = document.getElementById('source-text');
-
 messageInput.addEventListener('keyup', event => {
+
     clearTimeout(timer);
 
     timer = setTimeout(() => {
@@ -24,6 +22,26 @@ function doneTyping() {
     // console.log(`The user is done typing: ${value}`);
     translateText()
 }
+
+
+function populateLanguages(element, select) {
+    for (var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = i;
+        element.appendChild(el);
+    }
+    element.options[select].selected = 'selected';
+
+}
+
+var select = document.getElementById("selectNumber");
+var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
+populateLanguages(sourceLangElement, 1);
+populateLanguages(targetLangElement, 0);
+
+sourceLangElement.addEventListener("input", changeOptions);
 
 
 function changeOptions() {
@@ -45,6 +63,15 @@ function changeOptions() {
     }
 }
 
+function swapText() {
+    const selectedSourceLang = sourceLangElement.value;
+    sourceLangElement.value = targetLangElement.value;
+    targetLangElement.value = selectedSourceLang;
+
+    const t = sourceTextElement.value;
+    sourceTextElement.value = translatedTextElement.value;
+    translatedTextElement.value = t;
+}
 
 function translateText() {
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
