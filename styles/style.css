@@ -18,6 +18,36 @@ html {
     font-family: Inter, sans-serif;
     background-color: #DEDEDE;
 }
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 20px;
+    resize: none;
+}
+
+button {
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    border-color: black;
+}
+
+select {
+    border: none;
+    width: auto;
+    background-color: transparent;
+}
 
 .header-container{
     position: fixed;
@@ -78,6 +108,7 @@ html {
             0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+
 .language-select-container {
     box-sizing: border-box;
     width: 100%;
@@ -115,56 +146,68 @@ html {
     padding: 0px;
 }
 
+.source-input-left-container{
+    box-sizing: border-box;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #DEDEDE;
+    border-color: #DEDEDE #DEDEDE #DEDEDE white;
+    outline: none;
+}
+.source-input-left-container:focus-within{
+    border-color: black;
+    outline: none;
+}
+.input-container{
+    width: 100%;
+    height: -webkit-fill-available;
+    display: flex;
+}
+.source-input-delete-btn{
+    display: none;
+    align-self: flex-start;
+    border: none;
+}
+.limit-label{
+    display: none;
+    padding: 10px;
+}
+
+.source-input-right-container {
+    box-sizing: border-box;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #DEDEDE;
+    border-color: #DEDEDE white #DEDEDE #DEDEDE;
+    outline: none;
+}
+.source-input-right-container:focus-within {
+    border-color: black;
+    outline: none;
+}
+.output-copy-btn{
+    display: none;
+    padding-right: 20px;
+    align-items: flex-end;
+    border: none;
+}
+
 .translate_btn{
     display: none;
+    align-self: center;
     border: none;
 }
 .translate_btn:hover{
     background-color: #0d5c46;
     border: none;
-}
-.input-textarea{
-    border: 1px solid #DEDEDE;
-    border-color: #DEDEDE #DEDEDE #DEDEDE white;
-}
-.output-textarea{
-border: 1px solid #DEDEDE;
-    border-color: #DEDEDE white #DEDEDE #DEDEDE ;
-}
-
-textarea {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: 25px;
-
-    background-color: transparent;
-    font-size: 20px;
-    resize: none;
-}
-
-textarea:focus {
-    border-color: black;
-    outline: none;
-}
-button {
-    align-self: center;
-    padding: 10px;
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-}
-
-button:hover {
-    border-color: black;
-}
-
-select {
-    border: none;
-    width: auto;
-    background-color: transparent;
 }
 
 @media only screen and (max-width: 620px) {
@@ -174,12 +217,10 @@ select {
         align-items: center;
         justify-content: center;
     }
-
     .header_title {
         display: none;
         visibility: hidden;
     }
-
     .header img {
         width: 200px;
     }
@@ -212,11 +253,11 @@ select {
     select {
         width: -webkit-fill-available;
     }
-    .input-textarea {
+    .source-input-left-container {
         border-color: #DEDEDE white #DEDEDE white;
     }
 
-    .output-textarea {
+    .source-input-right-container {
         border-color: white white #DEDEDE white;
     }
     .footer {

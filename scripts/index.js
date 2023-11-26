@@ -4,47 +4,12 @@ const sourceTextElement = document.getElementById("source-text");
 const translatedTextElement = document.getElementById("translated-text");
 
 
-let timer;
-const waitTime = 1500;
-const messageInput = document.getElementById('source-text');
-messageInput.addEventListener('keyup', event => {
-
-    clearTimeout(timer);
-
-    timer = setTimeout(() => {
-        if (!window.matchMedia('(max-width: 620px)').matches) {
-            doneTyping();
-        }
-    }, waitTime);
-});
-
-function doneTyping() {
-    // console.log(`The user is done typing: ${value}`);
-    translateText()
-}
-
-
-function populateLanguages(element, select) {
-    for (var i = 0; i < options.length; i++) {
-        var opt = options[i];
-        var el = document.createElement("option");
-        el.textContent = opt;
-        el.value = i;
-        element.appendChild(el);
-    }
-    element.options[select].selected = 'selected';
-
-}
-
 var select = document.getElementById("selectNumber");
 var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
 populateLanguages(sourceLangElement, 1);
 populateLanguages(targetLangElement, 0);
 
-sourceLangElement.addEventListener("input", changeOptions);
-
-
-function changeOptions() {
+sourceLangElement.addEventListener("input", function () {
     const selectedSourceLang = sourceLangElement.value;
 
     if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
@@ -61,8 +26,44 @@ function changeOptions() {
             targetLangElement.options[i].style.display = 'block';
         }
     }
-}
+});
 
+let timer;
+const waitTime = 1500;
+sourceTextElement.addEventListener('input', function () {
+    if (this.value.length > 0) {
+        document.getElementById("soure-input-delete-btn").style.display = "block";
+        document.getElementById("source-input-limit-label").style.display = "block";
+        document.getElementById("source-input-limit-label").textContent = sourceTextElement.value.length + "/50";
+    } else {
+        document.getElementById("soure-input-delete-btn").style.display = "none";
+        document.getElementById("source-input-limit-label").style.display = "none";
+        document.getElementById('output-copy-btn').style.display = 'none';
+    }
+});
+
+sourceTextElement.addEventListener('keyup', event => {
+
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+        if (!window.matchMedia('(max-width: 620px)').matches && sourceTextElement.value != "") {
+            translateText();
+        }
+    }, waitTime);
+});
+
+function populateLanguages(element, select) {
+    for (var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = i;
+        element.appendChild(el);
+    }
+    element.options[select].selected = 'selected';
+
+}
 function swapText() {
     const selectedSourceLang = sourceLangElement.value;
     sourceLangElement.value = targetLangElement.value;
@@ -72,11 +73,20 @@ function swapText() {
     sourceTextElement.value = translatedTextElement.value;
     translatedTextElement.value = t;
 }
-
+function deleteInputText() {
+    sourceTextElement.value = "";
+    translatedTextElement.value = "";
+    document.getElementById("soure-input-delete-btn").style.display = "none";
+    document.getElementById("source-input-limit-label").style.display = "none";
+    document.getElementById('output-copy-btn').style.display = 'none';
+}
+function copyToClipboard() {
+    navigator.clipboard.writeText(translatedTextElement.value);
+}
 function translateText() {
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
     const styleElement = document.getElementById('language-style');
-
+    // azureFunctionUrl = '';
     if (!sourceLangElement || !targetLangElement) {
         console.error('Language selection elements not found');
         return;
@@ -103,6 +113,9 @@ function translateText() {
         })
         .then(text => {
             document.getElementById('translated-text').value = text;
+            if (translatedTextElement.value.trim().length > 0) {
+                document.getElementById('output-copy-btn').style.display = 'block';
+            }
         })
         .catch(error => {
             console.error(error.message);
