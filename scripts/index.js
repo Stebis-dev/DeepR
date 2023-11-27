@@ -36,7 +36,9 @@ sourceLangElement.addEventListener("input", function () {
         }
     }
 });
-
+targetLangElement.addEventListener("input", function () {
+       translateText();
+});
 let timer;
 const waitTime = 1500;
 sourceTextElement.addEventListener('input', function () {
