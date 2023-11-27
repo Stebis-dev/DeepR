@@ -8,6 +8,9 @@ const copyToClipboardBtn = document.getElementById("output-copy-btn");
 const outputVoiceBtn = document.getElementById("output-voice-btn");
 const loaderElement = document.getElementById("loader");
 let recognition;
+let utterance;
+let timer;
+const waitTime = 1500;
 let isRecognitionActive = false;
 let finalTranscript = '';
 var select = document.getElementById("selectNumber");
@@ -39,8 +42,7 @@ sourceLangElement.addEventListener("input", function () {
 targetLangElement.addEventListener("input", function () {
        translateText();
 });
-let timer;
-const waitTime = 1500;
+
 sourceTextElement.addEventListener('input', function () {
     inputCalculator();
 });
@@ -151,8 +153,8 @@ function translateText() {
 function textToSpeech() {
     const text = document.getElementById('translated-text').value;
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = languageCodes[targetLangElement.options[targetLangElement.selectedIndex].text] || 'en-US';
     speechSynthesis.speak(utterance);
-
 }
 
 const languageCodes = {
@@ -177,16 +179,9 @@ const languageCodes = {
     "French": "fr-FR"
 };
 
-document.getElementById('source-lang').addEventListener('change', function() {
-    const selectedLanguageValue = this.value;
-    const languageCode = languageMapping[selectedLanguageValue];
 
-    if (recognition && languageCode) {
-        recognition.lang = languageCode;
-    }
-});
 
-function initSpeechRecognition(language) {
+function initSpeechRecognition() {
     if (!('webkitSpeechRecognition' in window)) {
         alert("No support for speech recognition.");
         return false;
@@ -194,7 +189,8 @@ function initSpeechRecognition(language) {
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
-        recognition.lang = languageCodes[language] || 'lt-LT';
+
+        recognition.lang = languageCodes[sourceLangElement.options[sourceLangElement.selectedIndex].text] || 'lt-LT';
         recognition.onresult = function(event) {
             let interimTranscript = '';
             for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -220,8 +216,8 @@ function initSpeechRecognition(language) {
 }
 function voiceRecordStart() {
     if (recognition) {
-        const selectedLanguage = document.getElementById('source-lang').value;
-        initSpeechRecognition(selectedLanguage);
+        initSpeechRecognition();
+
         recognition.start();
         document.getElementById('voice-to-text-start-btn').disabled = true;
     } else {
