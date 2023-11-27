@@ -2,10 +2,10 @@ const sourceLangElement = document.getElementById("source-lang");
 const targetLangElement = document.getElementById("target-lang");
 const sourceTextElement = document.getElementById("source-text");
 const translatedTextElement = document.getElementById("translated-text");
-const sourceDeleteBtn = document.getElementById("soure-input-delete-btn");
+const sourceDeleteBtn = document.getElementById("source-input-delete-btn");
 const sourceLimitLabel = document.getElementById("source-input-limit-label");
 const copyToClipboardBtn = document.getElementById("output-copy-btn");
-
+const loaderElement = document.getElementById("loader");
 
 var select = document.getElementById("selectNumber");
 var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
@@ -86,7 +86,16 @@ function deleteInputText() {
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
 }
+function startLoading() {
+    translatedTextElement.style.display = "none";
+    loaderElement.style.display = "block"
+}
+function stopLoading() {
+    translatedTextElement.style.display = "block";
+    loaderElement.style.display = "none";
+}
 function translateText() {
+    startLoading();
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
     const styleElement = document.getElementById('language-style');
     // azureFunctionUrl = '';
@@ -119,8 +128,10 @@ function translateText() {
             if (translatedTextElement.value.trim().length > 0) {
                 copyToClipboardBtn.style.display = 'block';
             }
+            stopLoading();
         })
         .catch(error => {
+            stopLoading();
             console.error(error.message);
         });
 }

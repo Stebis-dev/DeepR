@@ -177,7 +177,7 @@ select {
     padding: 10px;
 }
 
-.source-input-right-container {
+.source-output-right-container {
     box-sizing: border-box;
     background-color: transparent;
     display: flex;
@@ -189,9 +189,15 @@ select {
     border-color: #DEDEDE white #DEDEDE #DEDEDE;
     outline: none;
 }
-.source-input-right-container:focus-within {
+.source-output-right-container:focus-within {
     border-color: black;
     outline: none;
+}
+.output-container {
+    width: 100%;
+    height: -webkit-fill-available;
+    display: flex;
+    justify-content: center;
 }
 .output-copy-btn{
     display: none;
@@ -208,6 +214,28 @@ select {
 .translate_btn:hover{
     background-color: #0d5c46;
     border: none;
+}
+
+.loader {
+    display: none;
+    align-self: center;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media only screen and (max-width: 620px) {

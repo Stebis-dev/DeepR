@@ -37,22 +37,19 @@
             </div>
         </div>
         <div class="language-input">
-            <!-- <textarea id="source-text" class="input-textarea" maxlength=50
-                placeholder="Enter text to translate..."></textarea>
-            <textarea id="translated-text" class="output-textarea" placeholder="Translation will appear here..."
-                readonly></textarea> -->
             <div class="source-input-left-container">
                 <div class="input-container">
                     <textarea id="source-text" maxlength=50 placeholder="Enter text to translate..."></textarea>
-                    <button id="soure-input-delete-btn" class="source-input-delete-btn" onclick="deleteInputText()">
+                    <button id="source-input-delete-btn" class="source-input-delete-btn" onclick="deleteInputText()">
                         <img src="images/x-lg.svg" alt="X" />
                     </button>
                 </div>
                 <div id="source-input-limit-label" class="limit-label">10/100</div>
             </div>
-            <div class="source-input-right-container">
-                <div class="input-container">
+            <div class="source-output-right-container">
+                <div class="output-container">
                     <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+                    <div id="loader" class="loader"></div>
                 </div>
                 <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
                     <img src="images/copy.svg" alt="X" />
