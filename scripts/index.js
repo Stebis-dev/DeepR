@@ -104,6 +104,7 @@ function deleteInputText() {
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
+    alert("Copied!");
 }
 function startLoading() {
     translatedTextElement.style.display = "none";
