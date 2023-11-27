@@ -197,13 +197,30 @@ select {
     display: flex;
     justify-content: center;
 }
+.output-btn-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 10px;
+    justify-content: flex-end;
+}
+.output-btn-container img{
+    box-sizing: border-box;
+    height: 16px;
+    width: 16px;
+}
+.output-btn-container button {
+    display: none;
+    align-items: flex-end;
+    border: none;
+}
 .output-copy-btn{
     display: none;
-    padding-right: 20px;
     align-items: flex-end;
     border: none;
 }
 .output-voice-btn{
+    box-sizing: border-box;
     display: none;
     padding-right: 20px;
     align-items: flex-end;
@@ -214,6 +231,7 @@ select {
     align-self: center;
     border: none;
 }
+
 .translate_btn:hover{
     background-color: #0d5c46;
     border: none;

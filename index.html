@@ -51,12 +51,14 @@
                     <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
                     <div id="loader" class="loader"></div>
                 </div>
-                <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
-                    <img src="images/copy.svg" alt="X" />
-                </button>
-                <button id="output-voice-btn" class="output-voice-btn" onclick="textToSpeech()">
-                    <img src="images/textToSpeech.svg" alt="X" />
-                </button>
+                <div class="output-btn-container">
+                    <button id="output-voice-btn" class="output-voice-btn" onclick="textToSpeech()">
+                        <img src="images/volume-up-fill.svg" alt="Text To Speech" />
+                    </button>
+                    <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
+                        <img src="images/copy.svg" alt="Copy" />
+                    </button>
+                </div>
             </div>
         </div>
         <button id="translate-btn" class="translate_btn" onclick="translateText()">

@@ -139,9 +139,27 @@ function translateText() {
             console.error(error.message);
         });
 }
-function textToSpeech(){
+function textToSpeech() {
     const text = document.getElementById('translated-text').value;
     const utterance = new SpeechSynthesisUtterance(text);
     speechSynthesis.speak(utterance);
 
 }
+
+function apiCall() {
+    startLoading();
+    // Simulating an API call
+    setTimeout(() => {
+        var textarea = sourceTextElement;
+        textarea.value = 'API response text'; // Set this to your actual API response
+
+        if (textarea.value.trim().length > 0) {
+            document.getElementById('translated-text').value = "text";
+            copyToClipboardBtn.style.display = 'block';
+            outputVoiceBtn.style.display = 'block';// Show the button
+        }
+        stopLoading();
+    }, 1000);
+}
+
+// apiCall(); // Simulate API call
