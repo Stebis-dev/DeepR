@@ -7,12 +7,17 @@ const sourceLimitLabel = document.getElementById("source-input-limit-label");
 const copyToClipboardBtn = document.getElementById("output-copy-btn");
 const outputVoiceBtn = document.getElementById("output-voice-btn");
 const loaderElement = document.getElementById("loader");
-
+let recognition;
+let isRecognitionActive = false;
+let finalTranscript = '';
 var select = document.getElementById("selectNumber");
 var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
 populateLanguages(sourceLangElement, 1);
 populateLanguages(targetLangElement, 0);
 
+document.addEventListener('DOMContentLoaded', function() {
+    initSpeechRecognition();
+});
 sourceLangElement.addEventListener("input", function () {
     const selectedSourceLang = sourceLangElement.value;
 
@@ -35,29 +40,31 @@ sourceLangElement.addEventListener("input", function () {
 let timer;
 const waitTime = 1500;
 sourceTextElement.addEventListener('input', function () {
-    if (this.value.length > 0) {
-        sourceDeleteBtn.style.display = "block";
-        sourceLimitLabel.style.display = "block";
-        sourceLimitLabel.textContent = sourceTextElement.value.length + "/50";
-    } else {
-        sourceDeleteBtn.style.display = "none";
-        sourceLimitLabel.style.display = "none";
-        copyToClipboardBtn.style.display = 'none';
-        outputVoiceBtn.style.display = 'none';
-    }
+    inputCalculator();
 });
 
 sourceTextElement.addEventListener('keyup', event => {
-
     clearTimeout(timer);
-
     timer = setTimeout(() => {
         if (!window.matchMedia('(max-width: 620px)').matches && sourceTextElement.value != "") {
             translateText();
         }
     }, waitTime);
 });
-
+function inputCalculator() {
+    const sourceTextElement = document.getElementById('source-text');
+    const textLength = sourceTextElement.value.length;
+    if (textLength > 0) {
+        sourceDeleteBtn.style.display = "block";
+        sourceLimitLabel.style.display = "block";
+        sourceLimitLabel.textContent = textLength + "/50";
+    } else {
+        sourceDeleteBtn.style.display = "none";
+        sourceLimitLabel.style.display = "none";
+        copyToClipboardBtn.style.display = 'none';
+        outputVoiceBtn.style.display = 'none';
+    }
+}
 function populateLanguages(element, select) {
     for (var i = 0; i < options.length; i++) {
         var opt = options[i];
@@ -146,20 +153,100 @@ function textToSpeech() {
 
 }
 
+const languageCodes = {
+    "English": "en-US",
+    "Lithuanian": "lt-LT",
+    "German": "de-DE",
+    "Latvian": "lv-LV",
+    "Polish": "pl-PL",
+    "Portuguese": "pt-PT",
+    "Romanian": "ro-RO",
+    "Russian": "ru-RU",
+    "Slovenian": "sl-SI",
+    "Swedish": "sv-SE",
+    "Turkish": "tr-TR",
+    "Greek": "el-GR",
+    "Dutch": "nl-NL",
+    "Italian": "it-IT",
+    "Indonesian": "id-ID",
+    "Korean": "ko-KR",
+    "Chinese (simplified)": "zh-CN",
+    "Estonian": "et-EE",
+    "French": "fr-FR"
+};
+
+document.getElementById('source-lang').addEventListener('change', function() {
+    const selectedLanguageValue = this.value;
+    const languageCode = languageMapping[selectedLanguageValue];
+
+    if (recognition && languageCode) {
+        recognition.lang = languageCode;
+    }
+});
+
+function initSpeechRecognition(language) {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("No support for speech recognition.");
+        return false;
+    } else {
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = languageCodes[language] || 'lt-LT';
+        recognition.onresult = function(event) {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += event.results[i][0].transcript;
+                } else {
+                    interimTranscript += event.results[i][0].transcript;
+                }
+            }
+            document.getElementById('source-text').value = finalTranscript + interimTranscript;
+            inputCalculator();
+        };
+        recognition.onend = function() {
+            if (isRecognitionActive) {
+                recognition.start();
+            }
+        };
+        recognition.onerror = function(event) {
+            console.error("Speech recognition error", event);
+        };
+        return true;
+    }
+}
+function voiceRecordStart() {
+    if (recognition) {
+        const selectedLanguage = document.getElementById('source-lang').value;
+        initSpeechRecognition(selectedLanguage);
+        recognition.start();
+        document.getElementById('voice-to-text-start-btn').disabled = true;
+    } else {
+        console.error("Speech recognition is not initialized");
+    }
+}
+function voiceRecordEnd() {
+    if (recognition) {
+        recognition.stop();
+        document.getElementById('voice-to-text-start-btn').disabled = false;
+        translateText();
+    } else {
+        console.error("Speech recognition is not initialized");
+    }
+}
+
 function apiCall() {
     startLoading();
-    // Simulating an API call
     setTimeout(() => {
         var textarea = sourceTextElement;
-        textarea.value = 'API response text'; // Set this to your actual API response
+        textarea.value = 'API response text';
 
         if (textarea.value.trim().length > 0) {
             document.getElementById('translated-text').value = "text";
             copyToClipboardBtn.style.display = 'block';
-            outputVoiceBtn.style.display = 'block';// Show the button
+            outputVoiceBtn.style.display = 'block';
         }
         stopLoading();
     }, 1000);
 }
-
-// apiCall(); // Simulate API call

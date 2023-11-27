@@ -170,6 +170,16 @@ select {
     align-self: flex-start;
     border: none;
 }
+.voice-start-btn{
+    padding-right: 20px;
+    align-items: flex-end;
+    border: none;
+}
+voice-end-btn{
+    padding-right: 20px;
+    align-items: flex-end;
+    border: none;
+}
 .limit-label{
     display: none;
     padding: 10px;
