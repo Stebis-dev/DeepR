@@ -1,3 +1,4 @@
+const languageStyleElement = document.getElementById("language-style");
 const sourceLangElement = document.getElementById("source-lang");
 const targetLangElement = document.getElementById("target-lang");
 const sourceTextElement = document.getElementById("source-text");
@@ -5,56 +6,77 @@ const translatedTextElement = document.getElementById("translated-text");
 const sourceDeleteBtn = document.getElementById("source-input-delete-btn");
 const sourceLimitLabel = document.getElementById("source-input-limit-label");
 const copyToClipboardBtn = document.getElementById("output-copy-btn");
+const outputVoiceBtn = document.getElementById("output-voice-btn");
 const loaderElement = document.getElementById("loader");
-
+let recognition;
+let utterance;
+let timer;
+const waitTime = 1500;
+let isRecognitionActive = false;
+let finalTranscript = '';
 var select = document.getElementById("selectNumber");
 var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
 populateLanguages(sourceLangElement, 1);
 populateLanguages(targetLangElement, 0);
 
+document.addEventListener('DOMContentLoaded', function () {
+    initSpeechRecognition();
+});
 sourceLangElement.addEventListener("input", function () {
+    translateText();
     const selectedSourceLang = sourceLangElement.value;
-
     if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
         let currentIndex = sourceLangElement.selectedIndex;
-
         currentIndex = (currentIndex + 1) % targetLangElement.options.length;
         targetLangElement.selectedIndex = currentIndex;
     }
-
     for (let i = 0; i < targetLangElement.options.length; i++) {
         if (targetLangElement.options[i].value === selectedSourceLang) {
             targetLangElement.options[i].style.display = 'none';
         } else {
-            targetLangElement.options[i].style.display = 'block';
+            targetLangElement.options[i].style.display = 'flex';
         }
     }
 });
+targetLangElement.addEventListener("input", function () {
+    translateText();
+});
+targetLangElement.addEventListener("input", function () {
+    translateText();
+});
+languageStyleElement.addEventListener("input", function () {
+    translateText();
+});
 
-let timer;
-const waitTime = 1500;
 sourceTextElement.addEventListener('input', function () {
-    if (this.value.length > 0) {
-        sourceDeleteBtn.style.display = "block";
-        sourceLimitLabel.style.display = "block";
-        sourceLimitLabel.textContent = sourceTextElement.value.length + "/50";
-    } else {
-        sourceDeleteBtn.style.display = "none";
-        sourceLimitLabel.style.display = "none";
-        copyToClipboardBtn.style.display = 'none';
-    }
+    inputCalculator();
 });
 
 sourceTextElement.addEventListener('keyup', event => {
-
     clearTimeout(timer);
-
     timer = setTimeout(() => {
         if (!window.matchMedia('(max-width: 620px)').matches && sourceTextElement.value != "") {
             translateText();
         }
     }, waitTime);
 });
+function inputCalculator() {
+    const sourceTextElement = document.getElementById('source-text');
+    const textLength = sourceTextElement.value.length;
+    if (checkIfZero()) {
+        sourceDeleteBtn.style.display = "flex";
+        sourceLimitLabel.style.display = "flex";
+        sourceLimitLabel.textContent = textLength + "/50";
+    } else {
+        hide();
+    }
+}
+function hide() {
+    sourceDeleteBtn.style.display = "none";
+    sourceLimitLabel.style.display = "none";
+    copyToClipboardBtn.style.display = 'none';
+    outputVoiceBtn.style.display = 'none';
+}
 
 function populateLanguages(element, select) {
     for (var i = 0; i < options.length; i++) {
@@ -82,56 +104,177 @@ function deleteInputText() {
     sourceDeleteBtn.style.display = "none";
     sourceLimitLabel.style.display = "none";
     copyToClipboardBtn.style.display = 'none';
+    outputVoiceBtn.style.display = 'none';
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
+    alert("Copied!");
 }
 function startLoading() {
     translatedTextElement.style.display = "none";
-    loaderElement.style.display = "block"
+    loaderElement.style.display = "flex"
 }
 function stopLoading() {
-    translatedTextElement.style.display = "block";
+    translatedTextElement.style.display = "flex";
     loaderElement.style.display = "none";
 }
-function translateText() {
-    startLoading();
-    const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
-    const styleElement = document.getElementById('language-style');
-    // azureFunctionUrl = '';
-    if (!sourceLangElement || !targetLangElement) {
-        console.error('Language selection elements not found');
-        return;
-    }
-    const data = {
-        'text': sourceTextElement.value,
-        'source_lang': sourceLangElement.options[sourceLangElement.selectedIndex].text,
-        'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text,
-        'style': styleElement.options[styleElement.selectedIndex].text
-    };
-    fetch(azureFunctionUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error(`Failed to translate. Status code: ${response.status}`);
-            }
-        })
-        .then(text => {
-            document.getElementById('translated-text').value = text;
-            if (translatedTextElement.value.trim().length > 0) {
-                copyToClipboardBtn.style.display = 'block';
-            }
-            stopLoading();
-        })
-        .catch(error => {
-            stopLoading();
-            console.error(error.message);
-        });
+function checkIfZero() {
+    const textLength = sourceTextElement.value.length;
+    return textLength > 0;
 }
+function translateText() {
+    if (checkIfZero()) {
+        startLoading();
+        const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
+        const styleElement = document.getElementById('language-style');
+        // azureFunctionUrl = '';
+        if (!sourceLangElement || !targetLangElement) {
+            console.error('Language selection elements not found');
+            return;
+        }
+        const data = {
+            'text': sourceTextElement.value,
+            'source_lang': sourceLangElement.options[sourceLangElement.selectedIndex].text,
+            'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text,
+            'style': styleElement.options[styleElement.selectedIndex].text
+        };
+        fetch(azureFunctionUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error(`Failed to translate. Status code: ${response.status}`);
+                }
+            })
+            .then(text => {
+                document.getElementById('translated-text').value = text;
+                if (translatedTextElement.value.trim().length > 0) {
+                    copyToClipboardBtn.style.display = 'flex';
+                    outputVoiceBtn.style.display = 'flex';
+                }
+                stopLoading();
+            })
+            .catch(error => {
+                stopLoading();
+                console.error(error.message);
+            });
+    }
+}
+function textToSpeech() {
+    const text = document.getElementById('translated-text').value;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = languageCodes[targetLangElement.options[targetLangElement.selectedIndex].text] || 'en-US';
+    speechSynthesis.speak(utterance);
+}
+
+const languageCodes = {
+    "English": "en-US",
+    "Lithuanian": "lt-LT",
+    "German": "de-DE",
+    "Latvian": "lv-LV",
+    "Polish": "pl-PL",
+    "Portuguese": "pt-PT",
+    "Romanian": "ro-RO",
+    "Russian": "ru-RU",
+    "Slovenian": "sl-SI",
+    "Swedish": "sv-SE",
+    "Turkish": "tr-TR",
+    "Greek": "el-GR",
+    "Dutch": "nl-NL",
+    "Italian": "it-IT",
+    "Indonesian": "id-ID",
+    "Korean": "ko-KR",
+    "Chinese (simplified)": "zh-CN",
+    "Estonian": "et-EE",
+    "French": "fr-FR"
+};
+
+
+
+function initSpeechRecognition() {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("No support for speech recognition.");
+        return false;
+    } else {
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.lang = languageCodes[sourceLangElement.options[sourceLangElement.selectedIndex].text] || 'lt-LT';
+        recognition.onresult = function (event) {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += event.results[i][0].transcript;
+                } else {
+                    interimTranscript += event.results[i][0].transcript;
+                }
+            }
+            document.getElementById('source-text').value = finalTranscript + interimTranscript;
+            inputCalculator();
+        };
+        recognition.onend = function () {
+            if (isRecognitionActive) {
+                recognition.start();
+            }
+        };
+        recognition.onerror = function (event) {
+            console.error("Speech recognition error", event);
+        };
+        return true;
+    }
+}
+function voiceRecordStart() {
+
+    if (recognition) {
+        initSpeechRecognition();
+
+        recognition.start();
+        document.getElementById('voice-to-text-start-btn').disabled = true;
+        hideMic();
+    } else {
+        console.error("Speech recognition is not initialized");
+    }
+}
+function voiceRecordEnd() {
+    if (recognition) {
+        recognition.stop();
+        document.getElementById('voice-to-text-start-btn').disabled = false;
+        translateText();
+        showMic();
+    } else {
+        showMic()
+        console.error("Speech recognition is not initialized");
+    }
+}
+function hideMic() {
+    document.getElementById("voice-to-text-start-btn").style.display = "none";
+    document.getElementById("voice-to-text-stop-btn").style.display = "flex";
+}
+function showMic() {
+    document.getElementById("voice-to-text-stop-btn").style.display = "none";
+    document.getElementById("voice-to-text-start-btn").style.display = "flex";
+}
+
+function apiCall() {
+    startLoading();
+    setTimeout(() => {
+        var textarea = sourceTextElement;
+        textarea.value = 'API response text';
+
+        if (textarea.value.trim().length > 0) {
+            document.getElementById('translated-text').value = "text";
+            copyToClipboardBtn.style.display = 'flex';
+            outputVoiceBtn.style.display = 'flex';
+        }
+        stopLoading();
+    }, 1000);
+}
+hide();
+// apiCall();

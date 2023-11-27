@@ -44,16 +44,31 @@
                         <img src="images/x-lg.svg" alt="X" />
                     </button>
                 </div>
-                <div id="source-input-limit-label" class="limit-label">10/100</div>
+                <div class="input-btn-container">
+                    <div class="left-align">
+                        <button id="voice-to-text-start-btn" class="voice-start-btn" onclick="voiceRecordStart()">
+                            <img src="images/mic.svg" alt="mic start" />
+                        </button>
+                        <button id="voice-to-text-stop-btn" class="voice-end-btn" onclick="voiceRecordEnd()">
+                            <img src="images/square-fill.svg" alt="X" />
+                        </button>
+                    </div>
+                    <div id="source-input-limit-label" class="limit-label">10/100</div>
+                </div>
             </div>
             <div class="source-output-right-container">
                 <div class="output-container">
                     <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
                     <div id="loader" class="loader"></div>
                 </div>
-                <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
-                    <img src="images/copy.svg" alt="X" />
-                </button>
+                <div class="output-btn-container">
+                    <button id="output-voice-btn" class="output-voice-btn" onclick="textToSpeech()">
+                        <img src="images/volume-up.svg" alt="Text To Speech" />
+                    </button>
+                    <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
+                        <img src="images/copy.svg" alt="Copy" />
+                    </button>
+                </div>
             </div>
         </div>
         <button id="translate-btn" class="translate_btn" onclick="translateText()">
