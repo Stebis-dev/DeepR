@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initSpeechRecognition();
 });
 sourceLangElement.addEventListener("input", function () {
+    translateText();
     const selectedSourceLang = sourceLangElement.value;
-
     if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
         let currentIndex = sourceLangElement.selectedIndex;
 
