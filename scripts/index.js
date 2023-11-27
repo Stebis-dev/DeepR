@@ -1,3 +1,4 @@
+const languageStyleElement = document.getElementById("language-style");
 const sourceLangElement = document.getElementById("source-lang");
 const targetLangElement = document.getElementById("target-lang");
 const sourceTextElement = document.getElementById("source-text");
@@ -26,11 +27,9 @@ sourceLangElement.addEventListener("input", function () {
     const selectedSourceLang = sourceLangElement.value;
     if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
         let currentIndex = sourceLangElement.selectedIndex;
-
         currentIndex = (currentIndex + 1) % targetLangElement.options.length;
         targetLangElement.selectedIndex = currentIndex;
     }
-
     for (let i = 0; i < targetLangElement.options.length; i++) {
         if (targetLangElement.options[i].value === selectedSourceLang) {
             targetLangElement.options[i].style.display = 'none';
@@ -41,6 +40,12 @@ sourceLangElement.addEventListener("input", function () {
 });
 targetLangElement.addEventListener("input", function () {
        translateText();
+});
+targetLangElement.addEventListener("input", function () {
+        translateText();
+});
+languageStyleElement.addEventListener("input", function () {
+        translateText();
 });
 
 sourceTextElement.addEventListener('input', function () {
@@ -58,7 +63,7 @@ sourceTextElement.addEventListener('keyup', event => {
 function inputCalculator() {
     const sourceTextElement = document.getElementById('source-text');
     const textLength = sourceTextElement.value.length;
-    if (textLength > 0) {
+    if (checkIfZero()) {
         sourceDeleteBtn.style.display = "block";
         sourceLimitLabel.style.display = "block";
         sourceLimitLabel.textContent = textLength + "/50";
@@ -108,7 +113,12 @@ function stopLoading() {
     translatedTextElement.style.display = "block";
     loaderElement.style.display = "none";
 }
+function  checkIfZero() {
+    const textLength = sourceTextElement.value.length;
+    return textLength > 0;
+}
 function translateText() {
+    if (checkIfZero()) {
     startLoading();
     const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
     const styleElement = document.getElementById('language-style');
@@ -149,6 +159,7 @@ function translateText() {
             stopLoading();
             console.error(error.message);
         });
+    }
 }
 function textToSpeech() {
     const text = document.getElementById('translated-text').value;
