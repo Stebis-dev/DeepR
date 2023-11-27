@@ -203,7 +203,12 @@ select {
     align-items: flex-end;
     border: none;
 }
-
+.output-voice-btn{
+    display: none;
+    padding-right: 20px;
+    align-items: flex-end;
+    border: none;
+}
 .translate_btn{
     display: none;
     align-self: center;

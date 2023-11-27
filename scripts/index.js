@@ -5,6 +5,7 @@ const translatedTextElement = document.getElementById("translated-text");
 const sourceDeleteBtn = document.getElementById("source-input-delete-btn");
 const sourceLimitLabel = document.getElementById("source-input-limit-label");
 const copyToClipboardBtn = document.getElementById("output-copy-btn");
+const outputVoiceBtn = document.getElementById("output-voice-btn");
 const loaderElement = document.getElementById("loader");
 
 var select = document.getElementById("selectNumber");
@@ -42,6 +43,7 @@ sourceTextElement.addEventListener('input', function () {
         sourceDeleteBtn.style.display = "none";
         sourceLimitLabel.style.display = "none";
         copyToClipboardBtn.style.display = 'none';
+        outputVoiceBtn.style.display = 'none';
     }
 });
 
@@ -82,6 +84,7 @@ function deleteInputText() {
     sourceDeleteBtn.style.display = "none";
     sourceLimitLabel.style.display = "none";
     copyToClipboardBtn.style.display = 'none';
+    outputVoiceBtn.style.display = 'none';
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
@@ -127,6 +130,7 @@ function translateText() {
             document.getElementById('translated-text').value = text;
             if (translatedTextElement.value.trim().length > 0) {
                 copyToClipboardBtn.style.display = 'block';
+                outputVoiceBtn.style.display = 'block';
             }
             stopLoading();
         })
@@ -134,4 +138,10 @@ function translateText() {
             stopLoading();
             console.error(error.message);
         });
+}
+function textToSpeech(){
+    const text = document.getElementById('translated-text').value;
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+
 }
