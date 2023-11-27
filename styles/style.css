@@ -31,22 +31,35 @@ textarea {
 }
 
 button {
-    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: 18px;
+    align-items: center;
+    padding: 20px;
     background-color: transparent;
-    border: 1px solid white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
+    border: none;
 }
 
 button:hover {
-    border-color: black;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.025)
 }
 
 select {
     border: none;
+    padding: 10px;
     width: auto;
     background-color: transparent;
+}
+select:hover {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.025)
+}
+select:focus
+{
+    outline: none;
 }
 
 .header-container{
@@ -123,10 +136,6 @@ select {
     flex-grow: 2;
     width: -webkit-fill-available;
 }
-.language-select-center{
-    flex-grow: 1;
-    width: auto;
-}
 .language-select-right {
     display: flex;
     flex-grow: 2;
@@ -164,25 +173,43 @@ select {
     width: 100%;
     height: -webkit-fill-available;
     display: flex;
+    align-self: flex-end;
 }
-.source-input-delete-btn{
-    display: none;
+.input-btn-container{
+    box-sizing: border-box;
+    width: -webkit-fill-available;
+    height: auto;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.source-input-delete-btn {
+    display: flex;
     align-self: flex-start;
-    border: none;
-}
-.voice-start-btn{
-    padding-right: 20px;
-    align-items: flex-end;
-    border: none;
-}
-voice-end-btn{
-    padding-right: 20px;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
     border: none;
 }
 .limit-label{
-    display: none;
+    display: flex;
     padding: 10px;
+    justify-content: flex-end;
+    align-items: flex-end ;
+}
+.left-align{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+ .left-align img {
+    height: 18px;
+    width: 18px;
+}
+.voice-start-btn{
+    display: flex;
+}
+.voice-end-btn{
+    display: none;
 }
 
 .source-output-right-container {
@@ -208,33 +235,15 @@ voice-end-btn{
     justify-content: center;
 }
 .output-btn-container {
-    width: 100%;
-    height: auto;
     display: flex;
+    align-items: center;
+    flex-direction: row;
     margin: 10px;
-    justify-content: flex-end;
 }
 .output-btn-container img{
     box-sizing: border-box;
-    height: 16px;
-    width: 16px;
-}
-.output-btn-container button {
-    display: none;
-    align-items: flex-end;
-    border: none;
-}
-.output-copy-btn{
-    display: none;
-    align-items: flex-end;
-    border: none;
-}
-.output-voice-btn{
-    box-sizing: border-box;
-    display: none;
-    padding-right: 20px;
-    align-items: flex-end;
-    border: none;
+    height: 18px;
+    width: 18px;
 }
 .translate_btn{
     display: none;
@@ -283,6 +292,9 @@ voice-end-btn{
     .header img {
         width: 200px;
     }
+    .language-select-container{
+        box-sizing: none;
+    }
 
     .translator-container {
         box-sizing: border-box;
@@ -303,6 +315,8 @@ voice-end-btn{
         display: block;
         box-sizing: border-box;
         width: 60%;
+        height: fit-content;
+        border-radius: 15px;
         padding: 10px;
         margin: 10px;
         background-color: #17A97F;
@@ -311,6 +325,7 @@ voice-end-btn{
     }
     select {
         width: -webkit-fill-available;
+        padding: 0px;
     }
     .source-input-left-container {
         border-color: #DEDEDE white #DEDEDE white;
