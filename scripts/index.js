@@ -234,7 +234,7 @@ function voiceRecordStart() {
 
     if (recognition) {
         initSpeechRecognition();
-
+        finalTranscript = '';
         recognition.start();
         document.getElementById('voice-to-text-start-btn').disabled = true;
         hideMic();
