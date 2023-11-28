@@ -109,6 +109,14 @@ function deleteInputText() {
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
     alert("Copied!");
+    var tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "flex";
+    tooltip.style.opacity = "1";
+
+    setTimeout(function () {
+        tooltip.style.opacity = "0";
+        setTimeout(function () { tooltip.style.display = "none"; }, 300); // Hide after fade out
+    }, 1000); // Tooltip display duration
 }
 function startLoading() {
     translatedTextElement.style.display = "none";
@@ -277,4 +285,4 @@ function apiCall() {
     }, 1000);
 }
 hide();
-// apiCall();
+apiCall();
