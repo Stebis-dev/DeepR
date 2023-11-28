@@ -108,7 +108,15 @@ function deleteInputText() {
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
-    alert("Copied!");
+    // alert("Copied!");
+    var tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "flex";
+    tooltip.style.opacity = "1";
+
+    setTimeout(function () {
+        tooltip.style.opacity = "0";
+        setTimeout(function () { tooltip.style.display = "none"; }, 300); // Hide after fade out
+    }, 1000); // Tooltip display duration
 }
 function startLoading() {
     translatedTextElement.style.display = "none";
@@ -127,9 +135,10 @@ function translateText() {
         startLoading();
         const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
         const styleElement = document.getElementById('language-style');
-        // azureFunctionUrl = '';
+        // const azureFunctionUrl = '';
         if (!sourceLangElement || !targetLangElement) {
             console.error('Language selection elements not found');
+            showError("Language selection elements not found")
             return;
         }
         const data = {
@@ -162,6 +171,7 @@ function translateText() {
             })
             .catch(error => {
                 stopLoading();
+                showError("Error oqured")
                 console.error(error.message);
             });
     }
@@ -260,6 +270,18 @@ function hideMic() {
 function showMic() {
     document.getElementById("voice-to-text-stop-btn").style.display = "none";
     document.getElementById("voice-to-text-start-btn").style.display = "flex";
+}
+
+function showError(message) {
+    var errorMessageDiv = document.getElementById('errorMessage');
+    var errorText = document.getElementById('errorText');
+    errorText.innerHTML = message;
+    errorMessageDiv.style.display = 'flex';
+
+    // Hide the message after 5 seconds
+    setTimeout(function () {
+        errorMessageDiv.style.display = 'none';
+    }, 5000);
 }
 
 function apiCall() {
