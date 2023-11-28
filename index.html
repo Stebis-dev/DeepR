@@ -30,6 +30,7 @@
             </div>
             <button class="language-select-center" onclick="swapText()">
                 <img src="images/arrow-left-right.svg" alt="Swap" />
+                <span class="tooltip-text">Swap source with target language</span>
             </button>
             <div class="language-select-right">
                 <select id="target-lang">
@@ -42,15 +43,18 @@
                     <textarea id="source-text" maxlength=50 placeholder="Enter text to translate..."></textarea>
                     <button id="source-input-delete-btn" class="source-input-delete-btn" onclick="deleteInputText()">
                         <img src="images/x-lg.svg" alt="X" />
+                        <span class="tooltip-text">Delete source text</span>
                     </button>
                 </div>
                 <div class="input-btn-container">
                     <div class="left-align">
                         <button id="voice-to-text-start-btn" class="voice-start-btn" onclick="voiceRecordStart()">
                             <img src="images/mic.svg" alt="mic start" />
+                            <span class="tooltip-text">Start recording</span>
                         </button>
                         <button id="voice-to-text-stop-btn" class="voice-end-btn" onclick="voiceRecordEnd()">
-                            <img src="images/square-fill.svg" alt="X" />
+                            <img src="images/square-fill.svg" alt="[]" />
+                            <span class="tooltip-text">Stop recording</span>
                         </button>
                     </div>
                     <div id="source-input-limit-label" class="limit-label">10/100</div>
@@ -64,13 +68,15 @@
                 <div class="output-btn-container">
                     <button id="output-voice-btn" class="output-voice-btn" onclick="textToSpeech()">
                         <img src="images/volume-up.svg" alt="Text To Speech" />
+                        <span class="tooltip-text">Listen</span>
                     </button>
                     <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
                         <img src="images/copy.svg" alt="Copy" />
-                        <span id="tooltip" class="tooltip" style="display: none;">
+                        <span id="tooltip" class="successMsg" style="display: none;">
                             <img src="images/check-lg.svg" alt="Ok" style="filter: invert(100%);" />
-                            <p style="margin: 10px ;">Translated text copied!</p>
+                            <p style="margin: 5px 10px ;">Translated text copied!</p>
                         </span>
+                        <span class="tooltip-text">Copy to clipboard</span>
                     </button>
                 </div>
             </div>

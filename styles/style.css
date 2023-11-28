@@ -31,6 +31,7 @@ textarea {
 }
 
 button {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -149,7 +150,6 @@ select:focus
     justify-content: space-around;
     height: 100%;
     margin-bottom: 15px;
-    border-radius: 0 34px 0 15px;
     padding: 0px;
 }
 
@@ -278,7 +278,8 @@ select:focus
         transform: rotate(360deg);
     }
 }
-.tooltip {
+
+.successMsg {
     background-color:#17A97F;
     color: white;
     text-align: center;
@@ -288,15 +289,12 @@ select:focus
     z-index: 1;
     bottom: 100%;
     right: 1%;
-    /* transform: translateX(-50%); */
     opacity: 0;
     transition: opacity 0.3s;
     white-space: nowrap;
     align-items: center;
 }
-
-/* Tooltip arrow */
-.tooltip::after {
+.successMsg::after {
     content: "";
     position: absolute;
     bottom: -10px;
@@ -305,6 +303,44 @@ select:focus
     border-width: 5px;
     border-style: solid;
     border-color: #17A97F transparent transparent transparent;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    white-space: nowrap;
+
+    /* Fade in */
+    opacity: 0;
+    transition: opacity 0.1s, visibility 0s linear 0.3s;
+}
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.language-select-center:hover .tooltip-text,
+.source-input-delete-btn:hover .tooltip-text,
+.voice-start-btn:hover .tooltip-text,
+.voice-end-btn:hover .tooltip-text,
+.output-copy-btn:hover .tooltip-text,
+.output-voice-btn:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s;
 }
 
 @media only screen and (max-width: 620px) {
