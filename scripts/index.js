@@ -108,7 +108,7 @@ function deleteInputText() {
 }
 function copyToClipboard() {
     navigator.clipboard.writeText(translatedTextElement.value);
-    alert("Copied!");
+    // alert("Copied!");
     var tooltip = document.getElementById("tooltip");
     tooltip.style.display = "flex";
     tooltip.style.opacity = "1";
