@@ -135,9 +135,10 @@ function translateText() {
         startLoading();
         const azureFunctionUrl = 'https://deepropenai.azurewebsites.net/api/http_trigger?code=O5mDT87drM49UMiHKqjPqTSnrxrQw0mBsY83sh1XVomlAzFuVxzjwQ==';
         const styleElement = document.getElementById('language-style');
-        // azureFunctionUrl = '';
+        // const azureFunctionUrl = '';
         if (!sourceLangElement || !targetLangElement) {
             console.error('Language selection elements not found');
+            showError("Language selection elements not found")
             return;
         }
         const data = {
@@ -170,6 +171,7 @@ function translateText() {
             })
             .catch(error => {
                 stopLoading();
+                showError("Error oqured")
                 console.error(error.message);
             });
     }
@@ -270,6 +272,18 @@ function showMic() {
     document.getElementById("voice-to-text-start-btn").style.display = "flex";
 }
 
+function showError(message) {
+    var errorMessageDiv = document.getElementById('errorMessage');
+    var errorText = document.getElementById('errorText');
+    errorText.innerHTML = message;
+    errorMessageDiv.style.display = 'flex';
+
+    // Hide the message after 5 seconds
+    setTimeout(function () {
+        errorMessageDiv.style.display = 'none';
+    }, 5000);
+}
+
 function apiCall() {
     startLoading();
     setTimeout(() => {
@@ -285,4 +299,4 @@ function apiCall() {
     }, 1000);
 }
 hide();
-apiCall();
+// apiCall();
