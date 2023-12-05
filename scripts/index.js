@@ -8,6 +8,7 @@ const sourceLimitLabel = document.getElementById("source-input-limit-label");
 const copyToClipboardBtn = document.getElementById("output-copy-btn");
 const outputVoiceBtn = document.getElementById("output-voice-btn");
 const loaderElement = document.getElementById("loader");
+const maxTextLength = 50;
 let recognition;
 let utterance;
 let timer;
@@ -66,11 +67,12 @@ function inputCalculator() {
     if (checkIfZero()) {
         sourceDeleteBtn.style.display = "flex";
         sourceLimitLabel.style.display = "flex";
-        sourceLimitLabel.textContent = textLength + "/50";
+        sourceLimitLabel.textContent = textLength + "/"+maxTextLength;
     } else {
         hide();
     }
 }
+
 function hide() {
     sourceDeleteBtn.style.display = "none";
     sourceLimitLabel.style.display = "none";
@@ -208,6 +210,7 @@ const languageCodes = {
 
 
 function initSpeechRecognition() {
+
     if (!('webkitSpeechRecognition' in window)) {
         alert("No support for speech recognition.");
         return false;
@@ -226,8 +229,14 @@ function initSpeechRecognition() {
                     interimTranscript += event.results[i][0].transcript;
                 }
             }
+            const textLength = sourceTextElement.value.length;
             document.getElementById('source-text').value = finalTranscript + interimTranscript;
-            inputCalculator();
+            inputCalculator()
+            if(textLength>=maxTextLength){
+                voiceRecordEnd();
+                showMic();
+            }
+
         };
         recognition.onend = function () {
             if (isRecognitionActive) {
