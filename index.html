@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepR</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <div class="header">
+            <img src="images/logo.png" alt="DeepR">
+            <h3 class="header_title">Translator</a></h3>
+            <h3 class="header_title">For business</h3>
+            <h3 class="header_title">Contact </h3>
+        </div>
+    </div>
+    <div class="translator-container">
+        <div class="language-select-container">
+            <div class="language-select-left">
+                <select id="language-style">
+                    <option value="1">Normal</option>
+                    <option value="2">Formal</option>
+                </select>
+                <select id="source-lang">
+                </select>
+            </div>
+            <button class="language-select-center" onclick="swapText()">
+                <img src="images/arrow-left-right.svg" alt="Swap" />
+                <span class="tooltip-text">Swap source with target language</span>
+            </button>
+            <div class="language-select-right">
+                <select id="target-lang">
+                </select>
+            </div>
+        </div>
+        <div class="language-input">
+            <div class="source-input-left-container">
+                <div class="input-container">
+                    <textarea id="source-text" maxlength=50 placeholder="Enter text to translate..."></textarea>
+                    <button id="source-input-delete-btn" class="source-input-delete-btn" onclick="deleteInputText()">
+                        <img src="images/x-lg.svg" alt="X" />
+                        <span class="tooltip-text">Delete source text</span>
+                    </button>
+                </div>
+                <div class="input-btn-container">
+                    <div class="left-align">
+                        <button id="voice-to-text-start-btn" class="voice-start-btn" onclick="voiceRecordStart()">
+                            <img src="images/mic.svg" alt="mic start" />
+                            <span class="tooltip-text">Start recording</span>
+                        </button>
+                        <button id="voice-to-text-stop-btn" class="voice-end-btn" onclick="voiceRecordEnd()">
+                            <img src="images/square-fill.svg" alt="[]" />
+                            <span class="tooltip-text">Stop recording</span>
+                        </button>
+                    </div>
+                    <div id="source-input-limit-label" class="limit-label">10/100</div>
+                </div>
+            </div>
+            <div class="source-output-right-container">
+                <div class="output-container">
+                    <textarea id="translated-text" placeholder="Translation will appear here..." readonly></textarea>
+                    <div id="loader" class="loader"></div>
+                </div>
+                <div class="output-btn-container">
+                    <button id="output-voice-btn" class="output-voice-btn" onclick="textToSpeech()">
+                        <img src="images/volume-up.svg" alt="Text To Speech" />
+                        <span class="tooltip-text">Listen</span>
+                    </button>
+                    <button id="output-copy-btn" class="output-copy-btn" onclick="copyToClipboard()">
+                        <img src="images/copy.svg" alt="Copy" />
+                        <span id="tooltip" class="successMsg" style="display: none;">
+                            <img src="images/check-lg.svg" alt="Ok" style="filter: invert(100%);" />
+                            <p style="margin: 5px 10px ;">Translated text copied!</p>
+                        </span>
+                        <span class="tooltip-text">Copy to clipboard</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button id="translate-btn" class="translate_btn" onclick="translateText()">
+            Translate
+        </button>
+    </div>
+
+    <div class="footer">
+        &copy 2023 DeepR, All Rights Reserved
+    </div>
+    <div id="errorMessage" class="error-message">
+        <img src="images/exclamation-diamond.svg" style="
+            width: 20px;
+            height: 20px;
+            filter: invert(29%) sepia(78%) saturate(7445%) hue-rotate(354deg) brightness(110%) contrast(125%);">
+        <p id="errorText" style="margin-left: 10px;"></p>
+    </div>
+    <script src="scripts/index.js"></script>
+</body>
+
+</html>
