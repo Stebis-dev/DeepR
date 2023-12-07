@@ -67,7 +67,7 @@ function inputCalculator() {
     if (checkIfZero()) {
         sourceDeleteBtn.style.display = "flex";
         sourceLimitLabel.style.display = "flex";
-        sourceLimitLabel.textContent = textLength + "/"+maxTextLength;
+        sourceLimitLabel.textContent = textLength + "/" + maxTextLength;
     } else {
         hide();
     }
@@ -99,6 +99,7 @@ function swapText() {
     const t = sourceTextElement.value;
     sourceTextElement.value = translatedTextElement.value;
     translatedTextElement.value = t;
+    translateText();
 }
 function deleteInputText() {
     sourceTextElement.value = "";
@@ -149,6 +150,7 @@ function translateText() {
             'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text,
             'style': styleElement.options[styleElement.selectedIndex].text
         };
+        console.log(data);
         fetch(azureFunctionUrl, {
             method: 'POST',
             headers: {
@@ -232,7 +234,7 @@ function initSpeechRecognition() {
             const textLength = sourceTextElement.value.length;
             document.getElementById('source-text').value = finalTranscript + interimTranscript;
             inputCalculator()
-            if(textLength>=maxTextLength){
+            if (textLength >= maxTextLength) {
                 voiceRecordEnd();
                 showMic();
             }
