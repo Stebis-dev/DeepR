@@ -24,25 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
     initSpeechRecognition();
 });
 sourceLangElement.addEventListener("input", function () {
-    translateText();
-    const selectedSourceLang = sourceLangElement.value;
-    if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
-        let currentIndex = sourceLangElement.selectedIndex;
-        currentIndex = (currentIndex + 1) % targetLangElement.options.length;
-        targetLangElement.selectedIndex = currentIndex;
-    }
-    for (let i = 0; i < targetLangElement.options.length; i++) {
-        if (targetLangElement.options[i].value === selectedSourceLang) {
-            targetLangElement.options[i].style.display = 'none';
-        } else {
-            targetLangElement.options[i].style.display = 'flex';
-        }
-    }
-});
-targetLangElement.addEventListener("input", function () {
+    sourceFilter();
     translateText();
 });
 targetLangElement.addEventListener("input", function () {
+    targetFilter();
     translateText();
 });
 languageStyleElement.addEventListener("input", function () {
@@ -61,13 +47,45 @@ sourceTextElement.addEventListener('keyup', event => {
         }
     }, waitTime);
 });
+
+function sourceFilter() {
+    const selectedSourceLang = sourceLangElement.value;
+    if (selectedSourceLang === targetLangElement.options[targetLangElement.selectedIndex].value) {
+        let currentIndex = sourceLangElement.selectedIndex;
+        currentIndex = (currentIndex + 1) % targetLangElement.options.length;
+        targetLangElement.selectedIndex = currentIndex;
+    }
+    for (let i = 0; i < targetLangElement.options.length; i++) {
+        if (targetLangElement.options[i].value === selectedSourceLang) {
+            targetLangElement.options[i].style.display = 'none';
+        } else {
+            targetLangElement.options[i].style.display = 'flex';
+        }
+    }
+}
+function targetFilter() {
+    const selectedSourceLang = targetLangElement.value;
+    if (selectedSourceLang === sourceLangElementargetLangElement.options[sourceLangElementargetLangElement.selectedIndex].value) {
+        let currentIndex = targetLangElement.selectedIndex;
+        currentIndex = (currentIndex + 1) % sourceLangElementargetLangElement.options.length;
+        sourceLangElementargetLangElement.selectedIndex = currentIndex;
+    }
+    for (let i = 0; i < sourceLangElementargetLangElement.options.length; i++) {
+        if (sourceLangElementargetLangElement.options[i].value === selectedSourceLang) {
+            sourceLangElementargetLangElement.options[i].style.display = 'none';
+        } else {
+            sourceLangElementargetLangElement.options[i].style.display = 'flex';
+        }
+    }
+}
+
 function inputCalculator() {
     const sourceTextElement = document.getElementById('source-text');
     const textLength = sourceTextElement.value.length;
     if (checkIfZero()) {
         sourceDeleteBtn.style.display = "flex";
         sourceLimitLabel.style.display = "flex";
-        sourceLimitLabel.textContent = textLength + "/"+maxTextLength;
+        sourceLimitLabel.textContent = textLength + "/" + maxTextLength;
     } else {
         hide();
     }
@@ -99,6 +117,8 @@ function swapText() {
     const t = sourceTextElement.value;
     sourceTextElement.value = translatedTextElement.value;
     translatedTextElement.value = t;
+    sourceFilter();
+    translateText();
 }
 function deleteInputText() {
     sourceTextElement.value = "";
@@ -149,6 +169,7 @@ function translateText() {
             'target_lang': targetLangElement.options[targetLangElement.selectedIndex].text,
             'style': styleElement.options[styleElement.selectedIndex].text
         };
+        console.log(data);
         fetch(azureFunctionUrl, {
             method: 'POST',
             headers: {
@@ -232,7 +253,7 @@ function initSpeechRecognition() {
             const textLength = sourceTextElement.value.length;
             document.getElementById('source-text').value = finalTranscript + interimTranscript;
             inputCalculator()
-            if(textLength>=maxTextLength){
+            if (textLength >= maxTextLength) {
                 voiceRecordEnd();
                 showMic();
             }
@@ -308,4 +329,6 @@ function apiCall() {
     }, 1000);
 }
 hide();
+sourceFilter();
+targetFilter();
 // apiCall();
