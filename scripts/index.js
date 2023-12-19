@@ -16,7 +16,7 @@ const waitTime = 1500;
 let isRecognitionActive = false;
 let finalTranscript = '';
 var select = document.getElementById("selectNumber");
-var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French"];
+var options = ["English", "Lithuanian", "German", "Latvian", "Polish", "Portuguese", "Romanian", "Russian", "Slovenian", "Swedish", "Turkish", "Greek", "Dutch", "Italian", "Indonesian", "Korean", "Chinese (simplified)", "Estonian", "French", "Japan"];
 populateLanguages(sourceLangElement, 1);
 populateLanguages(targetLangElement, 0);
 
